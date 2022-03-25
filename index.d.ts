@@ -1,7 +1,5 @@
-import { Page } from 'playwright';
-
 export interface playwrightLighthouseConfig {
-  page: Page;
+  page: string;
   port: number;
   thresholds?: any;
   opts?: any;
