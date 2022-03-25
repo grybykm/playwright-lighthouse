@@ -337,8 +337,6 @@ await playAudit({
 
 Sample HTML report:
 
-![screen](./docs/lighthouse_report.png)
-
 playAudit function also provides a promise that resolves with the Lighthouse result object containing the LHR (Lighthouse report in JSON format).
 
 ```js
