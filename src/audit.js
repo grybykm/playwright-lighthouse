@@ -1,6 +1,4 @@
 const { lighthouse } = require('./task');
-const chalk = require('chalk');
-const uaParser = require('ua-parser-js');
 
 const log = console.log;
 
@@ -31,19 +29,10 @@ let playAudit = async function (auditConfig = {}) {
     );
   }
 
-  const ua = await auditConfig.page.evaluate(() => navigator.userAgent);
-  const currentBrowserName = uaParser(ua).browser.name;
-
-  if (!checkBrowserIsValid(currentBrowserName)) {
-    throw new Error(`${currentBrowserName} is not supported. Skipping...`);
-  }
-
   if (!auditConfig.thresholds) {
     log(
-      chalk.yellow.italic(
         'playwright-lighthouse-audit',
         'It looks like you have not set thresholds yet. The test will be based on the 100 score for every metrics. Refer to https://github.com/abhinaba-ghosh/playwright-lighthouse to have more information and set thresholds by yourself :).'
-      )
     );
   }
 
@@ -53,20 +42,12 @@ let playAudit = async function (auditConfig = {}) {
   };
 
   const { comparison, results } = await lighthouse({
-    url: auditConfig.page.url(),
+    url: auditConfig.page,
     thresholds: auditConfig.thresholds || defaultThresholds,
     opts: auditConfig.opts,
     config: auditConfig.config,
     reports: reportsConfig,
     cdpPort: auditConfig.port,
-  });
-
-  log('\n');
-  log(chalk.blue('-------- playwright lighthouse audit reports --------'));
-  log('\n');
-
-  comparison.results.forEach((res) => {
-    log(chalk.greenBright(res));
   });
 
   if (comparison.errors.length > 0) {
@@ -80,17 +61,6 @@ let playAudit = async function (auditConfig = {}) {
   }
 
   return results;
-};
-
-const checkBrowserIsValid = (browserName) => {
-  const matches = VALID_BROWSERS.filter((pattern) => {
-    return new RegExp(pattern).test(browserName);
-  });
-
-  if (matches.length > 0) {
-    return true;
-  }
-  return false;
 };
 
 exports.playAudit = playAudit;

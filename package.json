@@ -22,10 +22,7 @@
   ],
   "author": "Abhinaba Ghosh <askabhinaba@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "chalk": "^4.0.0",
-    "ua-parser-js": "^0.7.21"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/mocha": "9.0.0",
     "@types/node": "16.11.7",
